@@ -81,16 +81,78 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="tableView" destination="rz7-ts-DHx" id="JQk-0K-iJt"/>
+                        <outlet property="tableView" destination="rz7-ts-DHx" id="QZI-eU-EPq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="60.869565217391312" y="92.410714285714278"/>
         </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="6ww-jr-bZM">
+            <objects>
+                <viewController id="9x4-bk-DxQ" customClass="ProfileViewController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="0bM-LL-j6w">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pick" translatesAutoresizingMaskIntoConstraints="NO" id="4ng-uf-i7e" userLabel="Avatar Image View">
+                                <rect key="frame" x="16" y="80" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="5hx-gH-fBf"/>
+                                    <constraint firstAttribute="height" constant="70" id="XJ1-ju-GMG"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Екатерина новикова" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPW-Zy-ygM" userLabel="Name Label">
+                                <rect key="frame" x="16" y="166" width="224" height="28"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ekaterina_nov" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPk-TD-578" userLabel="Login Name Label">
+                                <rect key="frame" x="16" y="202" width="91.5" height="15.5"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                                <color key="textColor" red="0.68235294117647061" green="0.68627450980392157" blue="0.70588235294117641" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, World!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFD-zP-5b6" userLabel="Description Label">
+                                <rect key="frame" x="16" y="226.5" width="78" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dgp-jB-b0y" userLabel="Logout Button">
+                                <rect key="frame" x="354" y="93" width="44" height="44"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="ipad_and_arrow_forward"/>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="5Ro-Yi-m16"/>
+                        <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="BPk-TD-578" firstAttribute="leading" secondItem="PPW-Zy-ygM" secondAttribute="leading" id="ABe-CK-QkP"/>
+                            <constraint firstItem="Dgp-jB-b0y" firstAttribute="top" secondItem="5Ro-Yi-m16" secondAttribute="top" constant="45" id="Cdg-LH-g5b"/>
+                            <constraint firstItem="5Ro-Yi-m16" firstAttribute="trailing" secondItem="Dgp-jB-b0y" secondAttribute="trailing" constant="16" id="DlT-62-q4k"/>
+                            <constraint firstItem="PPW-Zy-ygM" firstAttribute="leading" secondItem="4ng-uf-i7e" secondAttribute="leading" id="Ogw-9g-bqX"/>
+                            <constraint firstItem="4ng-uf-i7e" firstAttribute="top" secondItem="5Ro-Yi-m16" secondAttribute="top" constant="32" id="TmA-tN-m7a"/>
+                            <constraint firstItem="BPk-TD-578" firstAttribute="top" secondItem="PPW-Zy-ygM" secondAttribute="bottom" constant="8" id="gB6-4N-wno"/>
+                            <constraint firstItem="PPW-Zy-ygM" firstAttribute="top" secondItem="4ng-uf-i7e" secondAttribute="bottom" constant="16" id="hmb-uE-8Sn"/>
+                            <constraint firstItem="Dgp-jB-b0y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4ng-uf-i7e" secondAttribute="leading" id="irN-x5-fat"/>
+                            <constraint firstItem="4ng-uf-i7e" firstAttribute="leading" secondItem="0bM-LL-j6w" secondAttribute="leading" constant="16" id="j8a-wc-SfQ"/>
+                            <constraint firstItem="TFD-zP-5b6" firstAttribute="leading" secondItem="BPk-TD-578" secondAttribute="leading" id="kHM-vf-wF2"/>
+                            <constraint firstItem="TFD-zP-5b6" firstAttribute="top" secondItem="BPk-TD-578" secondAttribute="bottom" constant="9" id="rGY-Yw-LZS"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PgF-fj-Aj7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-255.07246376811597" y="-581.25"/>
+        </scene>
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
+        <image name="ipad_and_arrow_forward" width="44" height="44"/>
         <image name="like_button_on" width="42" height="42"/>
+        <image name="profile_pick" width="140" height="140"/>
     </resources>
 </document>
