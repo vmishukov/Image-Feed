@@ -1,17 +1,15 @@
 import UIKit
 
-class ImagesListViewController: UIViewController {
-    @IBOutlet private var tableView: UITableView!
+final class ImagesListViewController: UIViewController {
+    @IBOutlet weak var tableView: UITableView!
     
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
-        
+    
     override func viewDidLoad() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left:     0, bottom: 12, right: 0)
-     //   tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
-        
         super.viewDidLoad()
     }
     
@@ -21,20 +19,6 @@ class ImagesListViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-    
-    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        
-        if let cellImage = UIImage(named: "\(indexPath.row)") {
-            cell.cellImage.image = cellImage
-            cell.dateLabel.text = dateFormatter.string(from: Date())
-            
-            let isLiked = indexPath.row % 2 == 0
-            let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
-            cell.likeButton.setImage(likeImage, for: .normal)
-        } else {
-            return
-        }
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowSingleImageSegueIdentifier { // 1
@@ -48,6 +32,21 @@ class ImagesListViewController: UIViewController {
     }
 }
 
+extension ImagesListViewController {
+    func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        guard let image = UIImage(named: photosName[indexPath.row]) else {
+            return
+        }
+        
+        cell.cellImage.image = image
+        cell.dateLabel.text = dateFormatter.string(from: Date())
+        
+        let isLiked = indexPath.row % 2 == 0
+        let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
+        cell.likeButton.setImage(likeImage, for: .normal)
+    }
+}
+// MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return photosName.count
@@ -64,7 +63,7 @@ extension ImagesListViewController: UITableViewDataSource {
         return imageListCell
     }
 }
-
+// MARK: - UITableViewDelegate
 extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)

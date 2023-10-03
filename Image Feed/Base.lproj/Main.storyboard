@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HWz-pi-kfb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HWz-pi-kfb">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -21,8 +21,8 @@
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="9x4-bk-DxQ" kind="relationship" relationship="viewControllers" id="qCA-YC-ITa"/>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="PZK-jM-fe2"/>
+                        <segue destination="9x4-bk-DxQ" kind="relationship" relationship="viewControllers" id="rkp-lD-35e"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Nm-gn-JTI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -119,53 +119,8 @@
                     <view key="view" contentMode="scaleToFill" id="0bM-LL-j6w">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="profile_pick" translatesAutoresizingMaskIntoConstraints="NO" id="4ng-uf-i7e" userLabel="Avatar Image View">
-                                <rect key="frame" x="16" y="80" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="5hx-gH-fBf"/>
-                                    <constraint firstAttribute="height" constant="70" id="XJ1-ju-GMG"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Екатерина новикова" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPW-Zy-ygM" userLabel="Name Label">
-                                <rect key="frame" x="16" y="166" width="224" height="28"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="23"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ekaterina_nov" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPk-TD-578" userLabel="Login Name Label">
-                                <rect key="frame" x="16" y="202" width="91.5" height="15.5"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                <color key="textColor" red="0.68235294117647061" green="0.68627450980392157" blue="0.70588235294117641" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, World!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TFD-zP-5b6" userLabel="Description Label">
-                                <rect key="frame" x="16" y="226.5" width="78" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dgp-jB-b0y" userLabel="Logout Button">
-                                <rect key="frame" x="354" y="93" width="44" height="44"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="ipad_and_arrow_forward"/>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="5Ro-Yi-m16"/>
-                        <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="BPk-TD-578" firstAttribute="leading" secondItem="PPW-Zy-ygM" secondAttribute="leading" id="ABe-CK-QkP"/>
-                            <constraint firstItem="Dgp-jB-b0y" firstAttribute="top" secondItem="5Ro-Yi-m16" secondAttribute="top" constant="45" id="Cdg-LH-g5b"/>
-                            <constraint firstItem="5Ro-Yi-m16" firstAttribute="trailing" secondItem="Dgp-jB-b0y" secondAttribute="trailing" constant="16" id="DlT-62-q4k"/>
-                            <constraint firstItem="PPW-Zy-ygM" firstAttribute="leading" secondItem="4ng-uf-i7e" secondAttribute="leading" id="Ogw-9g-bqX"/>
-                            <constraint firstItem="4ng-uf-i7e" firstAttribute="top" secondItem="5Ro-Yi-m16" secondAttribute="top" constant="32" id="TmA-tN-m7a"/>
-                            <constraint firstItem="BPk-TD-578" firstAttribute="top" secondItem="PPW-Zy-ygM" secondAttribute="bottom" constant="8" id="gB6-4N-wno"/>
-                            <constraint firstItem="PPW-Zy-ygM" firstAttribute="top" secondItem="4ng-uf-i7e" secondAttribute="bottom" constant="16" id="hmb-uE-8Sn"/>
-                            <constraint firstItem="Dgp-jB-b0y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4ng-uf-i7e" secondAttribute="leading" id="irN-x5-fat"/>
-                            <constraint firstItem="4ng-uf-i7e" firstAttribute="leading" secondItem="0bM-LL-j6w" secondAttribute="leading" constant="16" id="j8a-wc-SfQ"/>
-                            <constraint firstItem="TFD-zP-5b6" firstAttribute="leading" secondItem="BPk-TD-578" secondAttribute="leading" id="kHM-vf-wF2"/>
-                            <constraint firstItem="TFD-zP-5b6" firstAttribute="top" secondItem="BPk-TD-578" secondAttribute="bottom" constant="9" id="rGY-Yw-LZS"/>
-                        </constraints>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="tab_profile_active" id="e2m-4g-nb5"/>
                 </viewController>
@@ -181,9 +136,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="PwT-qP-Mx7">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pkq-FF-Zwd">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="PwT-qP-Mx7">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="132"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="PwT-qP-Mx7" secondAttribute="trailing" id="2Wa-Mp-ohg"/>
+                                    <constraint firstAttribute="bottom" secondItem="PwT-qP-Mx7" secondAttribute="bottom" id="Mlm-Tf-7nJ"/>
+                                    <constraint firstItem="PwT-qP-Mx7" firstAttribute="leading" secondItem="pkq-FF-Zwd" secondAttribute="leading" id="U3g-ku-tcY"/>
+                                    <constraint firstItem="PwT-qP-Mx7" firstAttribute="top" secondItem="pkq-FF-Zwd" secondAttribute="top" id="vH8-xF-D4b"/>
+                                </constraints>
+                                <viewLayoutGuide key="contentLayoutGuide" id="e9c-ib-ewy"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="l3q-nr-nEh"/>
+                                <connections>
+                                    <outlet property="delegate" destination="4A0-xt-TKe" id="baI-oR-gCU"/>
+                                </connections>
+                            </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9v-34-oZY">
                                 <rect key="frame" x="8" y="8" width="48" height="48"/>
                                 <constraints>
@@ -196,34 +167,49 @@
                                     <action selector="didTapBackButton" destination="4A0-xt-TKe" eventType="touchUpInside" id="ag6-HM-mmH"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LAr-sX-eHJ">
+                                <rect key="frame" x="182" y="810" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="AZ8-8D-tGe"/>
+                                    <constraint firstAttribute="width" constant="50" id="jL1-Fy-Hxn"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Sharing"/>
+                                <connections>
+                                    <action selector="didTapShareButton" destination="4A0-xt-TKe" eventType="touchUpInside" id="G5w-lD-saC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Fic-oJ-isM"/>
                         <color key="backgroundColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="Fic-oJ-isM" firstAttribute="trailing" secondItem="pkq-FF-Zwd" secondAttribute="trailing" id="4nO-Or-JMV"/>
+                            <constraint firstItem="pkq-FF-Zwd" firstAttribute="leading" secondItem="Fic-oJ-isM" secondAttribute="leading" id="9B3-yg-AfY"/>
+                            <constraint firstItem="LAr-sX-eHJ" firstAttribute="centerX" secondItem="Fic-oJ-isM" secondAttribute="centerX" id="IMq-eN-K6S"/>
+                            <constraint firstItem="Fic-oJ-isM" firstAttribute="trailing" secondItem="T9v-34-oZY" secondAttribute="trailing" constant="358" id="JQE-Og-bif"/>
+                            <constraint firstItem="pkq-FF-Zwd" firstAttribute="top" secondItem="WFA-bo-ntD" secondAttribute="top" id="Krv-PI-Q95"/>
                             <constraint firstItem="T9v-34-oZY" firstAttribute="leading" secondItem="Fic-oJ-isM" secondAttribute="leading" constant="8" id="OHN-SW-7Ir"/>
-                            <constraint firstItem="Fic-oJ-isM" firstAttribute="trailing" secondItem="PwT-qP-Mx7" secondAttribute="trailing" id="QzK-Fs-7PK"/>
-                            <constraint firstItem="PwT-qP-Mx7" firstAttribute="leading" secondItem="WFA-bo-ntD" secondAttribute="leading" id="dLn-05-3AX"/>
-                            <constraint firstItem="PwT-qP-Mx7" firstAttribute="top" secondItem="WFA-bo-ntD" secondAttribute="top" id="kCV-xK-2aa"/>
-                            <constraint firstItem="Fic-oJ-isM" firstAttribute="bottom" secondItem="PwT-qP-Mx7" secondAttribute="bottom" id="vwL-Rc-5IN"/>
+                            <constraint firstItem="Fic-oJ-isM" firstAttribute="bottom" secondItem="LAr-sX-eHJ" secondAttribute="bottom" constant="36" id="V4X-QA-Yi9"/>
+                            <constraint firstAttribute="bottom" secondItem="pkq-FF-Zwd" secondAttribute="bottom" id="dtl-9M-iPb"/>
                             <constraint firstItem="T9v-34-oZY" firstAttribute="top" secondItem="Fic-oJ-isM" secondAttribute="top" constant="8" id="yuC-Et-oMg"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1y7-HC-PFU"/>
                     <connections>
                         <outlet property="imageView" destination="PwT-qP-Mx7" id="P4u-G8-pfm"/>
+                        <outlet property="scrollView" destination="pkq-FF-Zwd" id="IkM-Um-Aem"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4t-uy-we1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="768" y="-248"/>
+            <point key="canvasLocation" x="766.66666666666674" y="-248.4375"/>
         </scene>
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
         <image name="Backward" width="24" height="24"/>
-        <image name="ipad_and_arrow_forward" width="44" height="44"/>
+        <image name="Sharing" width="50" height="50"/>
         <image name="like_button_on" width="42" height="42"/>
-        <image name="profile_pick" width="140" height="140"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
     </resources>
