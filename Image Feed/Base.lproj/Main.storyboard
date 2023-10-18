@@ -230,7 +230,7 @@
                                 </constraints>
                                 <color key="tintColor" red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Button" image="chevron.backward" catalog="system"/>
+                                <state key="normal" image="chevron.backward" catalog="system"/>
                                 <connections>
                                     <action selector="didTapBackButton:" destination="UcO-Hz-ZgL" eventType="touchUpInside" id="FT0-1Z-NZL"/>
                                 </connections>
