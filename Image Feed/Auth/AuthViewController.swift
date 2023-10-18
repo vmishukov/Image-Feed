@@ -1,8 +1,14 @@
 import UIKit
 
+protocol AuthViewControllerDelegate: AnyObject {
+    func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
+}
+
 final class AuthViewController: UIViewController {
     private let ShowWebViewSegueIdentifier = "ShowWebView"
     private let oAuth2Service = OAuth2Service.shared
+    
+    weak var delegate: AuthViewControllerDelegate?
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowWebViewSegueIdentifier {
@@ -19,9 +25,7 @@ final class AuthViewController: UIViewController {
 // MARK: - WebViewViewControllerDelegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        oAuth2Service.fetchAuthToken(code) { (complition: Result<String, Error>) in
-            
-        }
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
 
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

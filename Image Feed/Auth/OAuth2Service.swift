@@ -10,7 +10,7 @@ final class OAuth2Service {
             set {
                 OAuth2TokenStorage().token = newValue
     } }
-    func fetchAuthToken (_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+    func fetchOAuthToken (_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         let request = authTokenRequest(code: code)
         let task = object(for: request) { [weak self] result in
             guard let self = self else { return }
