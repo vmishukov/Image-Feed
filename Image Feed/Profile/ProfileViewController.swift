@@ -14,13 +14,31 @@ final class ProfileViewController: UIViewController {
         logoutButtonCreate()
         nameLabelCreate()
         loginNameLabelCreate()
-        DescriptionLabelLabelCreate()
+        
+       
+        //написать нормальный гард или лет
+        //UIBlockingProgressHUD.show()
+        /*
+        ProfileService().fetchProfile(OAuth2TokenStorage().token ?? "lmao") { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success (let body):
+                DescriptionLabelLabelCreate(bio: body.bio)
+                //UIBlockingProgressHUD.dismiss()
+            case .failure:
+                DescriptionLabelLabelCreate(bio: "Loading Error")
+               // UIBlockingProgressHUD.dismiss()
+                break
+            }
+        }
+        */
         view.backgroundColor = UIColor(hex: "#1A1B22")
     }
     
-    func DescriptionLabelLabelCreate() {
+    
+    func DescriptionLabelLabelCreate(bio: String) {
         let label = UILabel()
-        label.text = "Hello, World!"
+        label.text = bio
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = label.font.withSize(13)
         label.textColor = UIColor.white
