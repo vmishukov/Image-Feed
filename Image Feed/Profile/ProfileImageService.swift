@@ -1,34 +1,34 @@
 //
-//  ProfileService.swift
+//  ProfileImageService.swift
 //  Image Feed
 //
-//  Created by Vladislav Mishukov on 29.10.2023.
+//  Created by Vladislav Mishukov on 01.11.2023.
 //
 
-import UIKit
+import Foundation
 
-final class ProfileService {
-    
-    static let shared = ProfileService()
+final class ProfileImageService {
+    static let shared = ProfileImageService()
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
-    private(set) var profile: Profile?
+    private(set) var avatarURL: String?
     
-    func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void){
+    func fetchProfileImageURL(_ username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        if profile != nil { return }
+        if avatarURL != nil { return }
         task?.cancel()
-        let request = makeRequest(code: OAuth2TokenStorage().token ?? "Lmao")
+        let request = makeRequest(code: username)
         let task = urlSession.dataTask(with: request) { date, response, error in
             DispatchQueue.main.async {
-                let request = self.profileRequest(token: token)
+                guard let token = OAuth2TokenStorage().token else { return }
+                let request = self.userResultsRequest(token: token,userName: username)
                 let task = self.object(for: request) { [weak self] result in
                     guard let self = self else { return }
                     switch result {
                     case .success(let body):
-                        let profile = Profile(profileResult: body)
-                        self.profile = profile
-                        completion(.success(profile))
+                        let avatarURL = body.profileImage["small"]
+                        self.avatarURL = avatarURL
+                        completion(.success(avatarURL ?? ""))
                     case .failure(let error):
                         completion(.failure(error))
                     } }
@@ -37,6 +37,7 @@ final class ProfileService {
         self.task = task
         task.resume()
     }
+    
     
     private func makeRequest(code: String) -> URLRequest {
         guard let url = URL(string: "...\(code)") else { fatalError("Failed to create URL")}
@@ -47,25 +48,27 @@ final class ProfileService {
     
 }
 // MARK: - Network Connection
-extension ProfileService {
+extension ProfileImageService {
     
     private func object(
         for request: URLRequest,
-        completion: @escaping (Result<ProfileResult, Error>) -> Void
+        completion: @escaping (Result<UserResults, Error>) -> Void
     ) -> URLSessionTask {
         let decoder = JSONDecoder()
         return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<ProfileResult, Error> in
-                Result { try decoder.decode(ProfileResult.self, from: data) }
+            let response = result.flatMap { data -> Result<UserResults, Error> in
+                Result { try decoder.decode(UserResults.self, from: data) }
             }
             completion(response)
         }
     }
     
-    private func profileRequest(token: String) -> URLRequest {
+    private func userResultsRequest(token: String, userName: String) -> URLRequest {
         guard let url = URL(
             string: "\(DefaultBaseURL)"
-            + "/me")
+            + "/users/"
+            + userName
+        )
         else {
             fatalError("Failed to create URL")
         }

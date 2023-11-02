@@ -2,6 +2,8 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
+    private let profileService = ProfileService.shared
+    
     private var logoutButton = UIButton()
     private var avatarImageView = UIImageView()
     private var nameLabel = UILabel()
@@ -12,29 +14,19 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         avatarImageViewCreate()
         logoutButtonCreate()
-        nameLabelCreate()
-        loginNameLabelCreate()
         
-       
-        //написать нормальный гард или лет
         //UIBlockingProgressHUD.show()
-        /*
-        ProfileService().fetchProfile(OAuth2TokenStorage().token ?? "lmao") { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success (let body):
-                DescriptionLabelLabelCreate(bio: body.bio)
-                //UIBlockingProgressHUD.dismiss()
-            case .failure:
-                DescriptionLabelLabelCreate(bio: "Loading Error")
-               // UIBlockingProgressHUD.dismiss()
-                break
-            }
-        }
-        */
+        
+        updateProfileDetails(profile: profileService.profile)
         view.backgroundColor = UIColor(hex: "#1A1B22")
     }
     
+    func updateProfileDetails(profile: Profile?) {
+        guard let profile = profile else { return }
+        nameLabelCreate(name: profile.userName)
+        loginNameLabelCreate(login: profile.loginName)
+        DescriptionLabelLabelCreate(bio: profile.bio)
+    }
     
     func DescriptionLabelLabelCreate(bio: String) {
         let label = UILabel()
@@ -47,9 +39,9 @@ final class ProfileViewController: UIViewController {
         self.DescriptionLabel = label
     }
     
-    func loginNameLabelCreate() {
+    func loginNameLabelCreate(login: String) {
         let label = UILabel()
-        label.text = "@ekaterina_nov"
+        label.text = login
         label.textColor = UIColor(hex: "#AEAFB4")
         label.font = label.font.withSize(13)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -58,9 +50,9 @@ final class ProfileViewController: UIViewController {
         self.loginNameLabel = label
     }
     
-    func nameLabelCreate() {
+    func nameLabelCreate(name: String) {
         let label = UILabel()
-        label.text = "Екатерина Новикова"
+        label.text = name
         label.font = UIFont.boldSystemFont(ofSize: 23)
         label.textColor = UIColor.white
         label.translatesAutoresizingMaskIntoConstraints = false

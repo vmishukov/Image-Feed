@@ -13,7 +13,7 @@ struct Profile {
     init(profileResult: ProfileResult) {
         self.userName = profileResult.userName
         self.name = profileResult.lastName + " " + profileResult.firstName
-        self.loginName = "@" + profileResult.userName
+        self.loginName = profileResult.userName
         self.bio = profileResult.bio
     }
 }
