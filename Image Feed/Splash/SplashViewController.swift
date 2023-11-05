@@ -9,17 +9,20 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let oauth2TokenStorage = OAuth2TokenStorage()
+    private var alertPresener: AlertPresenterProtocol?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //запускаем регистрацию заново, убрать когда будет рабочая кнопка выхода кек
         OAuth2TokenStorage().token = nil
+        alertPresener = AlertPresenter(delegate: self)
         if let token = OAuth2TokenStorage().token {
             switchToTabBarController()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -84,6 +87,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure:
                 // TODO [Sprint 11]
                 UIBlockingProgressHUD.dismiss()
+                showAlert()
                 break
             }
         }
@@ -94,10 +98,11 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success:
-                guard let login = profileService.profile?.loginName else { return }
-                fetchProfileImageUR(login)
-                self.switchToTabBarController()
                 UIBlockingProgressHUD.dismiss()
+                
+                guard let login = profileService.profile?.loginName else { return }
+                fetchProfileImageURL(login)
+                self.switchToTabBarController()
             case .failure:
                 // TODO [Sprint 11]
                 UIBlockingProgressHUD.dismiss()
@@ -106,7 +111,7 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
-    private func fetchProfileImageUR(_ userName: String) {
+    private func fetchProfileImageURL(_ userName: String) {
         profileImageService.fetchProfileImageURL(userName) { [weak self] result in
             guard let self = self else { return }
             switch result {
@@ -115,9 +120,18 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure:
                 break
             }
-            
-            
         }
-        
+    }
+    
+    func showAlert() {
+        let viewModel = AlertModel(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему",
+            buttonText: "Ок",
+            completion:  {[weak self] in
+                guard let self = self else { return }
+                //действие
+            })
+        alertPresener?.show(model: viewModel)
     }
 }

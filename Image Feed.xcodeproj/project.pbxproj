@@ -31,6 +31,9 @@
 		91B9CAAF2AEFF2D400DB9822 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9CAAE2AEFF2D400DB9822 /* Profile.swift */; };
 		91B9CAB12AF2925700DB9822 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9CAB02AF2925700DB9822 /* ProfileImageService.swift */; };
 		91B9CAB32AF2930300DB9822 /* UserResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9CAB22AF2930300DB9822 /* UserResults.swift */; };
+		91B9CAB62AF7618200DB9822 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9CAB52AF7618200DB9822 /* AlertPresenter.swift */; };
+		91B9CAB82AF761C400DB9822 /* AlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9CAB72AF761C400DB9822 /* AlertProtocol.swift */; };
+		91B9CABB2AF7621A00DB9822 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B9CABA2AF7621A00DB9822 /* AlertModel.swift */; };
 		91E4D1A22AB1F25B002C5184 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E4D1A12AB1F25B002C5184 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +63,9 @@
 		91B9CAAE2AEFF2D400DB9822 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		91B9CAB02AF2925700DB9822 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		91B9CAB22AF2930300DB9822 /* UserResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResults.swift; sourceTree = "<group>"; };
+		91B9CAB52AF7618200DB9822 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		91B9CAB72AF761C400DB9822 /* AlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertProtocol.swift; sourceTree = "<group>"; };
+		91B9CABA2AF7621A00DB9822 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		91E4D1A12AB1F25B002C5184 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +106,7 @@
 				91A22BC42AE025D4002CFDE3 /* Splash */,
 				9112B93E2AAB68FD00E637FD /* ImageList */,
 				91E4D19E2AB09D9F002C5184 /* Profile */,
+				91B9CAB42AF7613600DB9822 /* Alert */,
 				91B8FF272AB8918900C2C609 /* Single Image */,
 				91A22BB32ACEAED4002CFDE3 /* Auth */,
 				91A22BC32AE025AB002CFDE3 /* Extensions */,
@@ -164,6 +171,24 @@
 				91B9CAAC2AEFE90C00DB9822 /* ProfileResult.swift */,
 				91B9CAAE2AEFF2D400DB9822 /* Profile.swift */,
 				91B9CAB22AF2930300DB9822 /* UserResults.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		91B9CAB42AF7613600DB9822 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				91B9CAB92AF7620900DB9822 /* Models */,
+				91B9CAB52AF7618200DB9822 /* AlertPresenter.swift */,
+				91B9CAB72AF761C400DB9822 /* AlertProtocol.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
+		91B9CAB92AF7620900DB9822 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				91B9CABA2AF7621A00DB9822 /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -257,8 +282,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				91A22BB72ACEBBC1002CFDE3 /* WebViewViewController.swift in Sources */,
+				91B9CAB62AF7618200DB9822 /* AlertPresenter.swift in Sources */,
 				91B9CAB32AF2930300DB9822 /* UserResults.swift in Sources */,
 				7D9CFA4328DDEE7F00D971A7 /* AppDelegate.swift in Sources */,
+				91B9CABB2AF7621A00DB9822 /* AlertModel.swift in Sources */,
 				9112B93D2AAB67FF00E637FD /* ImageListCell.swift in Sources */,
 				91B9CAA82AEE7C0300DB9822 /* UIBlockingProgressHUD.swift in Sources */,
 				91E4D1A22AB1F25B002C5184 /* ProfileViewController.swift in Sources */,
@@ -273,6 +300,7 @@
 				7D9CFA4528DDEE7F00D971A7 /* SceneDelegate.swift in Sources */,
 				91A22BBD2ADEDA95002CFDE3 /* URLRequest+Extensions.swift in Sources */,
 				91A22BB52ACEAEEE002CFDE3 /* AuthViewController.swift in Sources */,
+				91B9CAB82AF761C400DB9822 /* AlertProtocol.swift in Sources */,
 				91B9CAAF2AEFF2D400DB9822 /* Profile.swift in Sources */,
 				91B9CAB12AF2925700DB9822 /* ProfileImageService.swift in Sources */,
 				91B9CAAD2AEFE90C00DB9822 /* ProfileResult.swift in Sources */,

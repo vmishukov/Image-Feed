@@ -18,11 +18,11 @@ final class ProfileService {
         assert(Thread.isMainThread)
         if profile != nil { return }
         task?.cancel()
-        let request = makeRequest(code: OAuth2TokenStorage().token ?? "Lmao")
+        let request = makeRequest(code: token)
         let task = urlSession.dataTask(with: request) { date, response, error in
             DispatchQueue.main.async {
                 let request = self.profileRequest(token: token)
-                let task = self.object(for: request) { [weak self] result in
+                let task = self.urlSession.objectTask(for: request) { [weak self] ( result: Result<ProfileResult,Error>) in
                     guard let self = self else { return }
                     switch result {
                     case .success(let body):
@@ -44,24 +44,9 @@ final class ProfileService {
         request.httpMethod = "POST"
         return request
     }
-    
 }
 // MARK: - Network Connection
 extension ProfileService {
-    
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<ProfileResult, Error>) -> Void
-    ) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<ProfileResult, Error> in
-                Result { try decoder.decode(ProfileResult.self, from: data) }
-            }
-            completion(response)
-        }
-    }
-    
     private func profileRequest(token: String) -> URLRequest {
         guard let url = URL(
             string: "\(DefaultBaseURL)"

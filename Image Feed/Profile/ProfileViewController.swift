@@ -9,16 +9,34 @@ final class ProfileViewController: UIViewController {
     private var nameLabel = UILabel()
     private var loginNameLabel = UILabel()
     private var DescriptionLabel = UILabel()
+    private var profileImageServiceObserver: NSObjectProtocol?
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
         avatarImageViewCreate()
         logoutButtonCreate()
-        
         //UIBlockingProgressHUD.show()
-        
         updateProfileDetails(profile: profileService.profile)
         view.backgroundColor = UIColor(hex: "#1A1B22")
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.DidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateAvatar()
+        }
+        updateAvatar()
+    }
+    
+    private func updateAvatar() {
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
     }
     
     func updateProfileDetails(profile: Profile?) {

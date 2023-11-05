@@ -8,6 +8,7 @@
 import Foundation
 
 final class ProfileImageService {
+    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
@@ -22,13 +23,18 @@ final class ProfileImageService {
             DispatchQueue.main.async {
                 guard let token = OAuth2TokenStorage().token else { return }
                 let request = self.userResultsRequest(token: token,userName: username)
-                let task = self.object(for: request) { [weak self] result in
+                let task = self.urlSession.objectTask(for: request) { [weak self] (result: Result<UserResults,Error> )in
                     guard let self = self else { return }
                     switch result {
                     case .success(let body):
-                        let avatarURL = body.profileImage["small"]
-                        self.avatarURL = avatarURL
-                        completion(.success(avatarURL ?? ""))
+                        let profileImageURL = body.profileImage["small"]
+                        self.avatarURL = profileImageURL
+                        completion(.success(profileImageURL ?? ""))
+                        NotificationCenter.default
+                            .post(
+                                name: ProfileImageService.DidChangeNotification,
+                                object: self,
+                                userInfo: ["URL": profileImageURL])
                     case .failure(let error):
                         completion(.failure(error))
                     } }
@@ -37,8 +43,6 @@ final class ProfileImageService {
         self.task = task
         task.resume()
     }
-    
-    
     private func makeRequest(code: String) -> URLRequest {
         guard let url = URL(string: "...\(code)") else { fatalError("Failed to create URL")}
         var request = URLRequest(url: url)
@@ -48,21 +52,7 @@ final class ProfileImageService {
     
 }
 // MARK: - Network Connection
-extension ProfileImageService {
-    
-    private func object(
-        for request: URLRequest,
-        completion: @escaping (Result<UserResults, Error>) -> Void
-    ) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<UserResults, Error> in
-                Result { try decoder.decode(UserResults.self, from: data) }
-            }
-            completion(response)
-        }
-    }
-    
+extension ProfileImageService {    
     private func userResultsRequest(token: String, userName: String) -> URLRequest {
         guard let url = URL(
             string: "\(DefaultBaseURL)"
