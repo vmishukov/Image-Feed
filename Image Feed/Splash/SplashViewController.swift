@@ -1,4 +1,5 @@
 import UIKit
+import SwiftKeychainWrapper
 import ProgressHUD
 
 final class SplashViewController: UIViewController {
@@ -8,15 +9,15 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+  
     private var alertPresener: AlertPresenterProtocol?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //запускаем регистрацию заново, убрать когда будет рабочая кнопка выхода кек
-        OAuth2TokenStorage().token = nil
         alertPresener = AlertPresenter(delegate: self)
-        if let token = OAuth2TokenStorage().token {
+      
+        let token = KeychainWrapper.standard.string(forKey: "Auth token")
+        if let token = token {
             switchToTabBarController()
         } else {
             performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
@@ -81,7 +82,8 @@ extension SplashViewController: AuthViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .success:
-                guard let token = OAuth2TokenStorage().token else {return}
+                let token = KeychainWrapper.standard.string(forKey: "Auth token")
+                guard let token = token else {return}
                 fetchProfile(token)
                 UIBlockingProgressHUD.dismiss()
             case .failure:
@@ -100,8 +102,8 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success:
                 UIBlockingProgressHUD.dismiss()
                 
-                guard let login = profileService.profile?.loginName else { return }
-                fetchProfileImageURL(login)
+                guard let userName = profileService.profile?.userName else { return }
+                fetchProfileImageURL(userName)
                 self.switchToTabBarController()
             case .failure:
                 // TODO [Sprint 11]

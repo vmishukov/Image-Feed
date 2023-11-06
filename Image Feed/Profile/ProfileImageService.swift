@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
 final class ProfileImageService {
     static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
@@ -21,7 +22,8 @@ final class ProfileImageService {
         let request = makeRequest(code: username)
         let task = urlSession.dataTask(with: request) { date, response, error in
             DispatchQueue.main.async {
-                guard let token = OAuth2TokenStorage().token else { return }
+                let token = KeychainWrapper.standard.string(forKey: "Auth token")
+                guard let token = token else { return }
                 let request = self.userResultsRequest(token: token,userName: username)
                 let task = self.urlSession.objectTask(for: request) { [weak self] (result: Result<UserResults,Error> )in
                     guard let self = self else { return }

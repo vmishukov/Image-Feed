@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
@@ -36,12 +37,27 @@ final class ProfileViewController: UIViewController {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
+                
         else { return }
+        loadNewAvatar(imageUrl: url)
+        
+    }
+    func loadNewAvatar (imageUrl: URL) {
+     
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+            
+        avatarImageView.kf.indicatorType = .activity
+        avatarImageView.kf.setImage(with: imageUrl,
+                              placeholder: UIImage(named: "profile_pick"),
+                              options: [.processor(processor)])
+        avatarImageView.layer.masksToBounds = true
+        avatarImageView.layer.cornerRadius = 34
+ 
     }
     
     func updateProfileDetails(profile: Profile?) {
         guard let profile = profile else { return }
-        nameLabelCreate(name: profile.userName)
+        nameLabelCreate(name: profile.name)
         loginNameLabelCreate(login: profile.loginName)
         DescriptionLabelLabelCreate(bio: profile.bio)
     }
