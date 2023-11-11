@@ -18,33 +18,27 @@ final class ProfileService {
         assert(Thread.isMainThread)
         if profile != nil { return }
         task?.cancel()
-        let request = makeRequest(code: token)
-        let task = urlSession.dataTask(with: request) { date, response, error in
-            DispatchQueue.main.async {
-                let request = self.profileRequest(token: token)
-                let task = self.urlSession.objectTask(for: request) { [weak self] ( result: Result<ProfileResult,Error>) in
-                    guard let self = self else { return }
-                    switch result {
-                    case .success(let body):
-                        let profile = Profile(profileResult: body)
-                        self.profile = profile
-                        completion(.success(profile))
-                    case .failure(let error):
-                        completion(.failure(error))
-                    } }
+        
+        let request = self.profileRequest(token: token)
+        let task = self.urlSession.objectTask(for: request) { [weak self] ( result: Result<ProfileResult,Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let body):
+                let profile = Profile(profileResult: body)
+                self.profile = profile
+                completion(.success(profile))
+            case .failure(let error):
+                completion(.failure(error))
             }
+            self.task = nil
         }
         self.task = task
         task.resume()
     }
     
-    private func makeRequest(code: String) -> URLRequest {
-        guard let url = URL(string: "...\(code)") else { fatalError("Failed to create URL")}
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        return request
-    }
 }
+
+
 // MARK: - Network Connection
 extension ProfileService {
     private func profileRequest(token: String) -> URLRequest {

@@ -8,22 +8,23 @@ protocol WebViewViewControllerDelegate: AnyObject {
 
 final class WebViewViewController: UIViewController {
     @IBOutlet private var webView: WKWebView!
-    @IBOutlet var progressView: UIProgressView!
+    @IBOutlet private var progressView: UIProgressView!
     
     private var estimatedProgressObservation: NSKeyValueObservation?
-    let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     weak var delegate: WebViewViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)!
+        var urlComponents = URLComponents(string: unsplashAuthorizeURLString)!
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: AccessKey),
             URLQueryItem(name: "redirect_uri", value: RedirectURI),
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: AccessScope)
         ]
-        let url = urlComponents.url!
+        
+        guard let url = urlComponents.url else {return}
         
         let request = URLRequest(url: url)
         

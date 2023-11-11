@@ -2,21 +2,18 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
-    
-    private let profileService = ProfileService.shared
-    
+    // MARK: - private Properties
     private var logoutButton = UIButton()
-    private var avatarImageView = UIImageView()
-    private var nameLabel = UILabel()
-    private var loginNameLabel = UILabel()
-    private var DescriptionLabel = UILabel()
+    private let profileService = ProfileService.shared
+    private let avatarImageView = UIImageView()
+    private let nameLabel = UILabel()
+    private let loginNameLabel = UILabel()
+    private let descriptionLabel = UILabel()
     private var profileImageServiceObserver: NSObjectProtocol?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         avatarImageViewCreate()
         logoutButtonCreate()
         //UIBlockingProgressHUD.show()
@@ -37,12 +34,11 @@ final class ProfileViewController: UIViewController {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
-                
         else { return }
         loadNewAvatar(imageUrl: url)
         
     }
-    func loadNewAvatar (imageUrl: URL) {
+    private func loadNewAvatar (imageUrl: URL) {
      
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
             
@@ -55,58 +51,54 @@ final class ProfileViewController: UIViewController {
  
     }
     
-    func updateProfileDetails(profile: Profile?) {
+   private func updateProfileDetails(profile: Profile?) {
         guard let profile = profile else { return }
         nameLabelCreate(name: profile.name)
         loginNameLabelCreate(login: profile.loginName)
-        DescriptionLabelLabelCreate(bio: profile.bio)
+        descriptionLabelLabelCreate(bio: profile.bio)
     }
     
-    func DescriptionLabelLabelCreate(bio: String) {
-        let label = UILabel()
+    private func descriptionLabelLabelCreate(bio: String) {
+        let label = self.descriptionLabel
         label.text = bio
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = label.font.withSize(13)
         label.textColor = UIColor.white
         view.addSubview(label)
         labelConstraits(Label: label, parentView: loginNameLabel)
-        self.DescriptionLabel = label
     }
     
-    func loginNameLabelCreate(login: String) {
-        let label = UILabel()
+   private func loginNameLabelCreate(login: String) {
+        let label = self.loginNameLabel
         label.text = login
         label.textColor = UIColor(hex: "#AEAFB4")
         label.font = label.font.withSize(13)
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
         labelConstraits(Label: label, parentView: nameLabel)
-        self.loginNameLabel = label
     }
     
-    func nameLabelCreate(name: String) {
-        let label = UILabel()
+    private func nameLabelCreate(name: String) {
+        let label = self.nameLabel
         label.text = name
         label.font = UIFont.boldSystemFont(ofSize: 23)
         label.textColor = UIColor.white
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
         labelConstraits(Label: label, parentView: avatarImageView)
-        self.nameLabel = label
     }
     
-    func avatarImageViewCreate () {
+   private func avatarImageViewCreate () {
         let profilePicture = UIImage(named: "profile_pick")
-        let imageView = UIImageView()
+        let imageView = self.avatarImageView
         imageView.image = profilePicture
         imageView.tintColor = .gray
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         avatarImageViewConstraits(avatarImageView: imageView)
-        self.avatarImageView = imageView
     }
     
-    func logoutButtonCreate () {
+    private func logoutButtonCreate () {
         let button = UIButton.systemButton(
             with: UIImage(systemName: "ipad.and.arrow.forward")!,
             target: self,
@@ -119,22 +111,21 @@ final class ProfileViewController: UIViewController {
         self.logoutButton = button
     }
     
-    func logoutButtonConstraits (logoutButton: UIView) {
+    private func logoutButtonConstraits (logoutButton: UIView) {
         logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16).isActive = true
         logoutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 55).isActive = true
         logoutButton.widthAnchor.constraint(equalToConstant: 22).isActive = true
         logoutButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
     }
     
-    func avatarImageViewConstraits (avatarImageView: UIView) {
-
+    private func avatarImageViewConstraits (avatarImageView: UIView) {
         avatarImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
         avatarImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16).isActive = true
         avatarImageView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         avatarImageView.widthAnchor.constraint(equalToConstant: 70).isActive = true
     }
     
-    func labelConstraits (Label: UIView, parentView: UIView) {
+   private func labelConstraits (Label: UIView, parentView: UIView) {
         Label.leadingAnchor.constraint(equalTo: parentView.leadingAnchor).isActive = true
         Label.topAnchor.constraint(equalTo: parentView.bottomAnchor, constant: 8).isActive = true
     }
