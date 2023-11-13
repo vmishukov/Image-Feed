@@ -13,33 +13,28 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         if let token = oAuth2TokenStorage.token {
-            profileService.fetchProfile(token) { [weak self] result in
-                UIBlockingProgressHUD.show()
-                switch result {
-                case .success(_ ):
-                    UIBlockingProgressHUD.dismiss()
-                    DispatchQueue.main.async {
-                        self?.switchToTabBarController()
-                        if let username = self?.profileService.profile?.userName {
-                            self?.profileImageService.fetchProfileImageURL(username) { result in
-                                switch result {
-                                case .success(let imageUrl):
-                                    print(imageUrl)
-                                case .failure(_):
-                                    self?.showErrorAlert()
-                                }
-                            }
-                        }
-                    }
-                case .failure(_):
-                    UIBlockingProgressHUD.dismiss()
-                    self?.showErrorAlert()
-                }
-            }
-
+            fetchProfile(token)
         } else {
             switchToAuthViewController()
+        }
+    }
+    
+    private func fetchProfile(_ token: String) {
+ //     UIBlockingProgressHUD.show()
+        profileService.fetchProfile(token) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    self.switchToTabBarController()
+                }
+                guard let username = self.profileService.profile?.userName else { return }
+                self.profileImageService.fetchProfileImageURL(username) { _ in }
+            case .failure:
+                self.showErrorAlert()
+            }
         }
     }
     
@@ -121,8 +116,8 @@ extension SplashViewController {
                 switch result {
                 case .success:
                     let token = oAuth2TokenStorage.token
-                    guard token != nil else {return}
-                    UIBlockingProgressHUD.dismiss()
+                    guard let token = token else {return}
+                    fetchProfile(token)
                 case .failure:
                     UIBlockingProgressHUD.dismiss()
                     showErrorAlert()

@@ -14,19 +14,20 @@ final class OAuth2Service {
         if lastCode == code { return }
         task?.cancel()
         lastCode = code
-        let request = authTokenRequest(code: code)
         
-       let task = urlSession.objectTask(for: request) {
+        guard let request = authTokenRequest(code: code) else { return }
+        let task = urlSession.objectTask(for: request) {
             [weak self] (response: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
             switch response {
             case .success(let body):
                 let authToken = body.accessToken
-                self?.oAuth2TokenStorage.token = authToken
+                self.oAuth2TokenStorage.token = authToken
                 completion(.success(authToken))
+                self.task = nil
             case .failure(let error):
                 completion(.failure(error))
             }
-           self?.task = nil
         }
         self.task = task
         task.resume()
@@ -37,7 +38,7 @@ final class OAuth2Service {
 
 extension OAuth2Service {
 
-    private func authTokenRequest(code: String) -> URLRequest {
+    private func authTokenRequest(code: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(
             path: "/oauth/token"
             + "?client_id=\(AccessKey)"

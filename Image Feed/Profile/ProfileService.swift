@@ -18,7 +18,6 @@ final class ProfileService {
         assert(Thread.isMainThread)
         if profile != nil { return }
         task?.cancel()
-        
         let request = self.profileRequest(token: token)
         let task = self.urlSession.objectTask(for: request) { [weak self] ( result: Result<ProfileResult,Error>) in
             guard let self = self else { return }
@@ -27,10 +26,10 @@ final class ProfileService {
                 let profile = Profile(profileResult: body)
                 self.profile = profile
                 completion(.success(profile))
+                self.task = nil
             case .failure(let error):
                 completion(.failure(error))
             }
-            self.task = nil
         }
         self.task = task
         task.resume()

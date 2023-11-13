@@ -39,10 +39,10 @@ final class ProfileImageService {
                         name: ProfileImageService.DidChangeNotification,
                         object: self,
                         userInfo: ["URL": profileImageURL])
+                self.task = nil
             case .failure(let error):
                 completion(.failure(error))
             }
-            self.task = nil
         }
         self.task = task
         task.resume()

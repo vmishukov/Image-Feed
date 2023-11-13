@@ -252,7 +252,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo_of_Unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="sdV-GI-U2n">
-                                <rect key="frame" x="166.66666666666666" y="408.66666666666669" width="60" height="60"/>
+                                <rect key="frame" x="166.66666666666666" y="430.66666666666669" width="60" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="CTz-Zp-UpM"/>
                                     <constraint firstAttribute="height" constant="60" id="dAS-Rf-lwq"/>
@@ -294,6 +294,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HaD-uS-spJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-311" y="-944"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cfi-b6-Zig">
+            <objects>
+                <navigationController storyboardIdentifier="NavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="Kf4-Qn-1Ix" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="zEp-x4-PQc"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GRU-g8-8ls">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BNw-Wv-NAu" kind="relationship" relationship="rootViewController" id="wdh-BH-OXR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lkp-so-MnW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1196" y="-945"/>
         </scene>
     </scenes>
     <resources>
