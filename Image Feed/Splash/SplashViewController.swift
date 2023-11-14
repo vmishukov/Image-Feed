@@ -28,11 +28,13 @@ final class SplashViewController: UIViewController {
             switch result {
             case .success:
                 DispatchQueue.main.async {
+                    UIBlockingProgressHUD.dismiss()
                     self.switchToTabBarController()
                 }
                 guard let username = self.profileService.profile?.userName else { return }
                 self.profileImageService.fetchProfileImageURL(username) { _ in }
             case .failure:
+                UIBlockingProgressHUD.dismiss()
                 self.showErrorAlert()
             }
         }
