@@ -14,10 +14,17 @@ final class ProfileService {
     private var task: URLSessionTask?
     private(set) var profile: Profile?
     
+    private init(task: URLSessionTask? = nil, profile: Profile? = nil) {
+        self.task = task
+        self.profile = profile
+    }
+
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void){
         assert(Thread.isMainThread)
         if profile != nil { return }
+       
         task?.cancel()
+        
         let request = self.profileRequest(token: token)
         let task = self.urlSession.objectTask(for: request) { [weak self] ( result: Result<ProfileResult,Error>) in
             guard let self = self else { return }

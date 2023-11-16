@@ -14,29 +14,27 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let token = oAuth2TokenStorage.token {
-            fetchProfile(token)
-        } else {
-            switchToAuthViewController()
+        guard let token = oAuth2TokenStorage.token else {
+           switchToAuthViewController()
+            return
         }
+        fetchProfile(token)
+        
     }
     
     private func fetchProfile(_ token: String) {
- //     UIBlockingProgressHUD.show()
+        //UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success:
-                DispatchQueue.main.async {
-                    UIBlockingProgressHUD.dismiss()
-                    self.switchToTabBarController()
-                }
                 guard let username = self.profileService.profile?.userName else { return }
-                self.profileImageService.fetchProfileImageURL(username) { _ in }
+                profileImageService.fetchProfileImageURL(username) { _ in }
+                self.switchToTabBarController()
             case .failure:
-                UIBlockingProgressHUD.dismiss()
                 self.showErrorAlert()
             }
+            UIBlockingProgressHUD.dismiss()
         }
     }
     
@@ -121,10 +119,10 @@ extension SplashViewController {
                     guard let token = token else {return}
                     fetchProfile(token)
                 case .failure:
-                    UIBlockingProgressHUD.dismiss()
                     showErrorAlert()
                     break
                 }
+                UIBlockingProgressHUD.dismiss()
             }
         }
     

@@ -138,9 +138,9 @@
 		91A22BB32ACEAED4002CFDE3 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				91AD13102AFFABC90004D4B8 /* OAuth */,
 				91A22BB42ACEAEEE002CFDE3 /* AuthViewController.swift */,
 				91A22BB62ACEBBC1002CFDE3 /* WebViewViewController.swift */,
+				91AD13102AFFABC90004D4B8 /* OAuth */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
