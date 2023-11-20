@@ -5,7 +5,7 @@ final class SplashViewController: UIViewController {
     
     private let ShowAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let oAuth2TokenStorage = OAuth2TokenStorage.shared
-    private let oauth2Service = OAuth2Service()
+    private let oauth2Service = OAuth2Service.shared
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private var alertPresener: AlertPresenterProtocol?
@@ -13,13 +13,27 @@ final class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor(hex: "#1A1B22")
+        splashImageViewCreate()
+        alertPresener = AlertPresenter(delegate: self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         guard let token = oAuth2TokenStorage.token else {
            switchToAuthViewController()
             return
         }
         fetchProfile(token)
-        
     }
     
     private func fetchProfile(_ token: String) {
@@ -38,17 +52,7 @@ final class SplashViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor(hex: "#1A1B22")
-        splashImageViewCreate()
-        alertPresener = AlertPresenter(delegate: self)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
+
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
@@ -57,11 +61,9 @@ final class SplashViewController: UIViewController {
     private func switchToTabBarController() {
         // Получаем экземпляр `Window` приложения
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
-        
         // Cоздаём экземпляр нужного контроллера из Storyboard с помощью ранее заданного идентификатора.
         let tabBarController = UIStoryboard(name: "Main", bundle: .main)
             .instantiateViewController(withIdentifier: "TabBarViewController")
-        
         // Установим в `rootViewController` полученный контроллер
         window.rootViewController = tabBarController
     }
@@ -125,7 +127,6 @@ extension SplashViewController {
                 UIBlockingProgressHUD.dismiss()
             }
         }
-    
 }
 //MARK: - NetfowkErroAlert
 extension SplashViewController {

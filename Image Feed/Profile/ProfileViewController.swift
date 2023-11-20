@@ -3,20 +3,63 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
     // MARK: - private Properties
-    private var logoutButton = UIButton()
     private let profileService = ProfileService.shared
-    private let avatarImageView = UIImageView()
-    private let nameLabel = UILabel()
-    private let loginNameLabel = UILabel()
-    private let descriptionLabel = UILabel()
+    
+    private lazy var logoutButton : UIButton = {
+        let button = UIButton.systemButton(
+            with: UIImage(systemName: "ipad.and.arrow.forward")!,
+            target: self,
+            action: #selector(Self.didTapButton)
+        )
+        button.tintColor = UIColor(red: 0.96, green: 0.42, blue: 0.42, alpha: 1)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(button)
+        self.logoutButton = button
+        return button
+    }()
+  
+    private lazy var avatarImageView : UIImageView = {
+        let profilePicture = UIImage(named: "profile_pick")
+        let imageView = UIImageView()
+        imageView.image = profilePicture
+        imageView.tintColor = .gray
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private lazy var nameLabel : UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 23)
+        label.textColor = UIColor.white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(label)
+        return label
+    }()
+    private lazy var loginNameLabel : UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(hex: "#AEAFB4")
+        label.font = label.font.withSize(13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(label)
+        return label
+    }()
+    
+    private lazy var descriptionLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = label.font.withSize(13)
+        label.textColor = UIColor.white
+        view.addSubview(label)
+        return label
+    }()
+    
     private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setProfileConstraits()
         
-        avatarImageViewCreate()
-        logoutButtonCreate()
-        //UIBlockingProgressHUD.show()
         updateProfileDetails(profile: profileService.profile)
         view.backgroundColor = UIColor(hex: "#1A1B22")
         profileImageServiceObserver = NotificationCenter.default.addObserver(
@@ -38,6 +81,15 @@ final class ProfileViewController: UIViewController {
         loadNewAvatar(imageUrl: url)
         
     }
+    
+    private func setProfileConstraits() {
+        logoutButtonConstraits(logoutButton: self.logoutButton)
+        avatarImageViewConstraits(avatarImageView: self.avatarImageView)
+        labelConstraits(Label: self.nameLabel, parentView: avatarImageView)
+        labelConstraits(Label: self.loginNameLabel, parentView: self.nameLabel)
+        labelConstraits(Label: self.descriptionLabel, parentView: loginNameLabel)
+    }
+    
     private func loadNewAvatar (imageUrl: URL) {
      
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
@@ -51,64 +103,11 @@ final class ProfileViewController: UIViewController {
  
     }
     
-   private func updateProfileDetails(profile: Profile?) {
+    private func updateProfileDetails(profile: Profile?) {
         guard let profile = profile else { return }
-        nameLabelCreate(name: profile.name)
-        loginNameLabelCreate(login: profile.loginName)
-        descriptionLabelLabelCreate(bio: profile.bio)
-    }
-    
-    private func descriptionLabelLabelCreate(bio: String) {
-        let label = self.descriptionLabel
-        label.text = bio
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = label.font.withSize(13)
-        label.textColor = UIColor.white
-        view.addSubview(label)
-        labelConstraits(Label: label, parentView: loginNameLabel)
-    }
-    
-   private func loginNameLabelCreate(login: String) {
-        let label = self.loginNameLabel
-        label.text = login
-        label.textColor = UIColor(hex: "#AEAFB4")
-        label.font = label.font.withSize(13)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
-        labelConstraits(Label: label, parentView: nameLabel)
-    }
-    
-    private func nameLabelCreate(name: String) {
-        let label = self.nameLabel
-        label.text = name
-        label.font = UIFont.boldSystemFont(ofSize: 23)
-        label.textColor = UIColor.white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
-        labelConstraits(Label: label, parentView: avatarImageView)
-    }
-    
-   private func avatarImageViewCreate () {
-        let profilePicture = UIImage(named: "profile_pick")
-        let imageView = self.avatarImageView
-        imageView.image = profilePicture
-        imageView.tintColor = .gray
-        view.addSubview(imageView)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        avatarImageViewConstraits(avatarImageView: imageView)
-    }
-    
-    private func logoutButtonCreate () {
-        let button = UIButton.systemButton(
-            with: UIImage(systemName: "ipad.and.arrow.forward")!,
-            target: self,
-            action: #selector(Self.didTapButton)
-        )
-        button.tintColor = UIColor(red: 0.96, green: 0.42, blue: 0.42, alpha: 1)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(button)
-        logoutButtonConstraits(logoutButton: button)
-        self.logoutButton = button
+        descriptionLabel.text = profile.bio
+        loginNameLabel.text = profile.loginName
+        nameLabel.text = profile.name
     }
     
     private func logoutButtonConstraits (logoutButton: UIView) {
