@@ -5,6 +5,7 @@ final class ImagesListViewController: UIViewController {
     
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
+    private let imagesListService = ImagesListService.shared
     
     override func viewDidLoad() {
         tableView.delegate = self
@@ -45,6 +46,11 @@ extension ImagesListViewController {
         let likeImage = isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
         cell.likeButton.setImage(likeImage, for: .normal)
     }
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+            if indexPath.row + 1 == imagesListService.photos.count {
+                imagesListService.fetchPhotosNextPage()
+            }
+        }
 }
 // MARK: - UITableViewDataSource
 extension ImagesListViewController: UITableViewDataSource {
@@ -81,3 +87,5 @@ extension ImagesListViewController: UITableViewDelegate {
         return cellHeight
     }
 }
+// MARK: - PhotosNextRowRequest
+

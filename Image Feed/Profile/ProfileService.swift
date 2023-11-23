@@ -14,8 +14,7 @@ final class ProfileService {
     private var task: URLSessionTask?
     private(set) var profile: Profile?
     
-    private init(task: URLSessionTask? = nil, profile: Profile? = nil) {
-        self.task = task
+    private init( profile: Profile? = nil) {
         self.profile = profile
     }
 
