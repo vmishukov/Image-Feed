@@ -20,7 +20,7 @@ final class ImagesListService {
     
     func fetchPhotosNextPage() -> Void {
         assert(Thread.isMainThread)
-        task?.cancel()
+        guard task == nil else { return }
         
         let nextPage = lastLoadedPage == nil
         ? 1

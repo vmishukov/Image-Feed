@@ -4,6 +4,7 @@ import Kingfisher
 final class ProfileViewController: UIViewController {
     // MARK: - private Properties
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     private lazy var logoutButton : UIButton = {
         let button = UIButton.systemButton(
@@ -54,7 +55,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    private var profileImageServiceObserver: NSObjectProtocol?
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
