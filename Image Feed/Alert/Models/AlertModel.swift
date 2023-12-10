@@ -15,5 +15,8 @@ struct AlertModel {
     let buttonText: String
     //замыкание без параметров для действия по кнопке алерта
     var completion: () -> Void
+    //
+    var nextButtonText: String?
+    var nextCompletion: () -> Void = {}
 }
 

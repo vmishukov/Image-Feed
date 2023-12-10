@@ -14,7 +14,8 @@ final class SingleImageViewController : UIViewController {
         )
         present(share, animated: true, completion: nil)
     }
-    
+    // MARK: - Private Properties
+    private var alertPresener: AlertPresenterProtocol?
     // MARK: - Public Properties
 
     var fullImageURL: URL! {
@@ -69,5 +70,25 @@ final class SingleImageViewController : UIViewController {
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
+    }
+}
+
+//MARK: - NetfowkErroAlert
+extension SingleImageViewController {
+    private func showErrorAlert() {
+        let viewModel = AlertModel(
+            title: "Что-то пошло не так(",
+            message: "Перезапустить загрузку?",
+            buttonText: "Ок",
+            completion:  {[weak self] in
+                guard let self = self else { return }
+                self.receiveImage()
+            },
+            nextButtonText: "Нет",
+            nextCompletion: { [weak self] in
+                guard let self = self else { return }
+                self.dismiss(animated: true)
+            })
+        alertPresener?.show(model: viewModel)
     }
 }

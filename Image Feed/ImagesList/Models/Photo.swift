@@ -20,8 +20,8 @@ struct Photo {
         self.size = CGSize(width: photoResult.width, height: photoResult.height)
         self.createdAt = ISO8601DateFormatter().date(from: photoResult.createdAt ?? "")
         self.welcomeDescription = photoResult.description
-        self.thumbImageURL = photoResult.urls["thumb"] ?? ""
-        self.largeImageURL = photoResult.urls["full"] ?? ""
-        self.isLiked = photoResult.likedByUser
+        self.thumbImageURL = photoResult.urls?.thumbImageURL ?? ""
+        self.largeImageURL = photoResult.urls?.largeImageURL ?? ""
+        self.isLiked = photoResult.likedByUser ?? false
     }
 }

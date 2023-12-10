@@ -8,13 +8,15 @@
 import UIKit
 
 final class ImagesListService {
-    static let shared = ImagesListService()
-    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
-    
+    // MARK: - Private Properties
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
-    private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
+    // MARK: - Public Properties
+    static let shared = ImagesListService()
+    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    private(set) var photos: [Photo] = []
+    
     private init() {
     }
     
@@ -45,7 +47,39 @@ final class ImagesListService {
                     )
                 self.task = nil
             case .failure(let error):
+                self.task = nil
                 assertionFailure("No images \(error)")
+            }
+        }
+        self.task = task
+        task.resume()
+    }
+    
+    func changeLike(photoId: String, isLiked: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
+    {
+        assert(Thread.isMainThread)
+        guard task == nil else { return }
+        guard let token = OAuth2TokenStorage.shared.token else { return }
+        let request = likeRequest(token: token, photoId: photoId, isLiked: isLiked)
+        let task = self.urlSession.objectTask(for: request) { [weak self] (result: Result<LikeResult,Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let body):
+                // Поиск индекса элемента
+                if let index = self.photos.firstIndex(where: {$0.id == photoId}) {
+                    //текущий элемент
+                    //let photo = self.photos[index]
+                    // Копия элемента с инвертированным значением isLiked
+                    guard let newPhoto = body.photo else {return}
+                    // заменяем элемент в массиве.
+                    self.photos[index] = Photo(photoResult: newPhoto)
+                    self.task = nil
+                    completion(.success(Void()))
+                }
+                self.task = nil
+            case .failure(let error):
+                self.task = nil
+                completion(.failure(error))
             }
         }
         self.task = task
@@ -70,5 +104,32 @@ extension ImagesListService {
         request.httpMethod = "GET"
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
+    }
+    
+    private func likeRequest(token: String, photoId: String, isLiked: Bool) -> URLRequest {
+        guard let url = URL(
+            string: "\(DefaultBaseURL)"
+            + "/photos"
+            + "/\(photoId)"
+            + "/like"
+        )
+        else {
+            fatalError("Failed to create URL")
+        }
+        var request = URLRequest(url: url)
+        
+        if isLiked {
+            request.httpMethod = "DELETE"
+        }else {
+            request.httpMethod = "POST"
+        }
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+    
+    func withReplaced(itemAt: Int, newValue: Photo) -> [Photo] {
+        var item = ImagesListService.shared.photos
+        item.replaceSubrange(itemAt...itemAt, with: [newValue])
+        return item
     }
 }

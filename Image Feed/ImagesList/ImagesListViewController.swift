@@ -4,12 +4,11 @@ import Kingfisher
 
 final class ImagesListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
-    var photos: [Photo] = []
     private let imagesListService = ImagesListService.shared
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
     private var ImageListServiceObserver: NSObjectProtocol?
-    
+    var photos: [Photo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +101,7 @@ extension ImagesListViewController: UITableViewDataSource {
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-        //imageListCell.delegate = self
+        imageListCell.delegate = self
         configCell(for: imageListCell,with: indexPath)
         return imageListCell
     }
@@ -123,5 +122,24 @@ extension ImagesListViewController: UITableViewDelegate {
         return cellHeight
     }
 }
-// MARK: - PhotosNextRowRequest
+// MARK: - ImagesListCellDelegate
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLiked: photo.isLiked) { [weak self] (result: Result<Void, Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                // Синхронизируем массив картинок с сервисом
+                self.photos = self.imagesListService.photos
+                cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
+            case .failure(let error):
+                assertionFailure("No images \(error)")
+            }
+            UIBlockingProgressHUD.dismiss()
+        }
+    }
+}
 

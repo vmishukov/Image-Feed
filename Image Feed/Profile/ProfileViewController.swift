@@ -2,6 +2,14 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    @objc private func didTapButton(_ sender: UIButton) {
+        Cookie.clean()
+        OAuth2TokenStorage.shared.deleteToken()
+        profileService.clean()
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration") }
+        window.rootViewController = SplashViewController()
+    }
     // MARK: - private Properties
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -129,8 +137,5 @@ final class ProfileViewController: UIViewController {
         Label.leadingAnchor.constraint(equalTo: parentView.leadingAnchor).isActive = true
         Label.topAnchor.constraint(equalTo: parentView.bottomAnchor, constant: 8).isActive = true
     }
-    
-    @objc
-    private func didTapButton() {
-    }
+
 }
