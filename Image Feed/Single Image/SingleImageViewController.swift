@@ -84,8 +84,8 @@ extension SingleImageViewController {
                 guard let self = self else { return }
                 self.receiveImage()
             },
-            nextButtonText: "Нет",
-            nextCompletion: { [weak self] in
+            secondButtonText: "Нет",
+            secondCompletion: { [weak self] in
                 guard let self = self else { return }
                 self.dismiss(animated: true)
             })

@@ -2,17 +2,14 @@ import UIKit
 import Kingfisher
 
 final class ProfileViewController: UIViewController {
+    
     @objc private func didTapButton(_ sender: UIButton) {
-        Cookie.clean()
-        OAuth2TokenStorage.shared.deleteToken()
-        profileService.clean()
-        guard let window = UIApplication.shared.windows.first else {
-            fatalError("Invalid Configuration") }
-        window.rootViewController = SplashViewController()
+        showLogOutAlert()
     }
     // MARK: - private Properties
     private let profileService = ProfileService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var alertPresener: AlertPresenterProtocol?
     
     private lazy var logoutButton : UIButton = {
         let button = UIButton.systemButton(
@@ -68,7 +65,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setProfileConstraits()
-        
+        alertPresener = AlertPresenter(delegate: self)
         updateProfileDetails(profile: profileService.profile)
         view.backgroundColor = UIColor(hex: "#1A1B22")
         profileImageServiceObserver = NotificationCenter.default.addObserver(
@@ -138,4 +135,42 @@ final class ProfileViewController: UIViewController {
         Label.topAnchor.constraint(equalTo: parentView.bottomAnchor, constant: 8).isActive = true
     }
 
+}
+
+//MARK: - Logout alert
+extension ProfileViewController {
+    private func showLogOutAlert() {
+        let viewModel = AlertModel(
+            title: "",
+            message: "Вы действительно хотите выйти ?",
+            buttonText: "Да",
+            completion:  {[weak self] in
+                guard let self = self else { return }
+                Cookie.clean()
+                OAuth2TokenStorage.shared.deleteToken()
+                profileService.clean()
+                guard let window = UIApplication.shared.windows.first else {
+                    fatalError("Invalid Configuration") }
+                window.rootViewController = SplashViewController()
+            },
+            secondButtonText: "Нет", 
+            secondCompletion: {[weak self] in
+                guard let self = self else { return }
+                return
+            }
+        )
+        alertPresener?.show(model: viewModel)
+    }
+    
+    private func showErrorAlert() {
+        let viewModel = AlertModel(
+            title: "Что-то пошло не так(",
+            message: "Не удалось войти в систему",
+            buttonText: "Ок",
+            completion:  {[weak self] in
+                guard let self = self else { return }
+                return
+            })
+        alertPresener?.show(model: viewModel)
+    }
 }
