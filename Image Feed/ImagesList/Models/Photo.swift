@@ -14,14 +14,4 @@ struct Photo {
     let thumbImageURL: String?
     let largeImageURL: String?
     let isLiked: Bool
-    
-    init(photoResult: PhotoResult) {
-        self.id = photoResult.id
-        self.size = CGSize(width: photoResult.width, height: photoResult.height)
-        self.createdAt = ISO8601DateFormatter().date(from: photoResult.createdAt ?? "")
-        self.welcomeDescription = photoResult.description
-        self.thumbImageURL = photoResult.urls?.thumbImageURL ?? ""
-        self.largeImageURL = photoResult.urls?.largeImageURL ?? ""
-        self.isLiked = photoResult.likedByUser ?? false
-    }
 }

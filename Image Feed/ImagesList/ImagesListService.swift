@@ -16,6 +16,7 @@ final class ImagesListService {
     static let shared = ImagesListService()
     static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     private(set) var photos: [Photo] = []
+    private let dateFormatter = ISO8601DateFormatter()
     
     private init() {
     }
@@ -35,11 +36,17 @@ final class ImagesListService {
             guard let self = self else { return }
             switch result {
             case .success(let body):
-                body.forEach { PhotoResult in
-                    let photo = Photo(photoResult: PhotoResult)
+                body.forEach { photoResult in
+                    let photo = Photo(
+                        id: photoResult.id,
+                        size: CGSize(width: photoResult.width, height: photoResult.height),
+                        createdAt: self.dateFormatter.date(from: photoResult.createdAt ?? ""),
+                        welcomeDescription: photoResult.description,
+                        thumbImageURL: photoResult.urls?.thumbImageURL ?? "",
+                        largeImageURL: photoResult.urls?.largeImageURL ?? "",
+                        isLiked: photoResult.likedByUser ?? false)
                     self.photos.append(photo)
                 }
-                self.lastLoadedPage = nextPage
                 NotificationCenter.default
                     .post(name: ImagesListService.DidChangeNotification,
                           object: self,
@@ -72,7 +79,14 @@ final class ImagesListService {
                     // Копия элемента с инвертированным значением isLiked
                     guard let newPhoto = body.photo else {return}
                     // заменяем элемент в массиве.
-                    self.photos[index] = Photo(photoResult: newPhoto)
+                    self.photos[index] = Photo(
+                        id: newPhoto.id,
+                        size: CGSize(width: newPhoto.width, height: newPhoto.height),
+                        createdAt: self.dateFormatter.date(from: newPhoto.createdAt ?? ""),
+                        welcomeDescription: newPhoto.description,
+                        thumbImageURL: newPhoto.urls?.thumbImageURL ?? "",
+                        largeImageURL: newPhoto.urls?.largeImageURL ?? "",
+                        isLiked: newPhoto.likedByUser ?? false)
                     self.task = nil
                     completion(.success(Void()))
                 }

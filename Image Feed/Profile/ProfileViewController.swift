@@ -141,8 +141,8 @@ final class ProfileViewController: UIViewController {
 extension ProfileViewController {
     private func showLogOutAlert() {
         let viewModel = AlertModel(
-            title: "",
-            message: "Вы действительно хотите выйти ?",
+            title: "Пока, пока!",
+            message: "Уверены что хотите выйти?",
             buttonText: "Да",
             completion:  {[weak self] in
                 guard let self = self else { return }
