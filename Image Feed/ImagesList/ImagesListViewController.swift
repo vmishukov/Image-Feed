@@ -57,7 +57,9 @@ extension ImagesListViewController {
         let placeholder = UIImage(named: "Stub")
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: url, placeholder: placeholder) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self = self else {
+                return
+            }
             self.tableView.reloadRows(at: [indexPath], with: .automatic)
             cell.cellImage.kf.indicatorType = .none
             if let data = imagesListService.photos[indexPath.row].createdAt {
@@ -69,6 +71,7 @@ extension ImagesListViewController {
             let likeImage = isLiked ? UIImage(named: "like_button_off") : UIImage(named: "like_button_on")
             cell.likeButton.setImage(likeImage, for: .normal)
         }
+        //тест не проходит
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
