@@ -47,7 +47,6 @@ final class ImagesListViewController: UIViewController {
         } else {
             super.prepare(for: segue, sender: sender)
         }
-        
     }
 }
 extension ImagesListViewController {

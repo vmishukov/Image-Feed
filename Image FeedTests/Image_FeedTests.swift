@@ -37,7 +37,7 @@ final class WebViewControllerSpy: WebViewViewControllerProtocol {
     func setProgressHidden(_ isHidden: Bool) {
     }
 }
-
+// вызывается view did load
 final class WebViewTests: XCTestCase {
     func testViewControllerCallsViewDidLoad() {
         //given
@@ -53,7 +53,7 @@ final class WebViewTests: XCTestCase {
         //then
         XCTAssertTrue(presenter.viewDidLoadCalled) //behaviour verification
     }
-    
+    //вызывается функция load
     func testPresenterCallsLoadRequest() {
         //given
         let viewController = WebViewControllerSpy()
