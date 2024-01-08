@@ -2,7 +2,16 @@ import UIKit
 import Kingfisher
 
 
-final class ImagesListViewController: UIViewController {
+public protocol ImagesListViewControllerProtocol: AnyObject {
+    var presenter: ImagesListViewPresenterProtocol? { get set }
+    //func configCell(for cell: ImagesListCell, with indexPath: IndexPath)
+    //func imageListCellDidTapLike(_ cell: ImagesListCell)
+    func updateTableViewAnimated()
+    var photos: [Photo] {get set}
+}
+
+
+final class ImagesListViewController: UIViewController,ImagesListViewControllerProtocol {
     @IBOutlet weak var tableView: UITableView!
     private let imagesListService = ImagesListService.shared
     private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
@@ -10,10 +19,17 @@ final class ImagesListViewController: UIViewController {
     private var ImageListServiceObserver: NSObjectProtocol?
     var photos: [Photo] = []
     
+    lazy var presenter: ImagesListViewPresenterProtocol? = {
+          return ImagesListViewPresenter()
+      }()
+       
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
+        presenter?.view = self
+        presenter?.viewDidLoad()
+        
         tableView.contentInset = UIEdgeInsets(top: 12, left:     0, bottom: 12, right: 0)
         ImageListServiceObserver = NotificationCenter.default.addObserver(
             forName: ImagesListService.DidChangeNotification,
@@ -23,8 +39,9 @@ final class ImagesListViewController: UIViewController {
             guard let self = self else { return }
             updateTableViewAnimated()
         }
-        imagesListService.fetchPhotosNextPage()
+        presenter?.fetchPhotosNextPage()
     }
+    
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -54,6 +71,7 @@ extension ImagesListViewController {
         let imageUrl = photos[indexPath.row].thumbImageURL!
         let url = URL(string: imageUrl)
         let placeholder = UIImage(named: "Stub")
+    
         cell.cellImage.kf.indicatorType = .activity
         cell.cellImage.kf.setImage(with: url, placeholder: placeholder) { [weak self] _ in
             guard let self = self else {
@@ -78,7 +96,7 @@ extension ImagesListViewController {
                 imagesListService.fetchPhotosNextPage()
             }
         }
-    private func updateTableViewAnimated() {
+    func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
         photos = imagesListService.photos
@@ -130,12 +148,12 @@ extension ImagesListViewController: ImagesListCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLiked: photo.isLiked) { [weak self] (result: Result<Void, Error>) in
+        presenter?.addPhotoLike(photoId: photo.id, isLiked: photo.isLiked) { [weak self] (result: Result<Void, Error>) in
             guard let self = self else { return }
             switch result {
             case .success:
-                // Синхронизируем массив картинок с сервисом
-                self.photos = self.imagesListService.photos
+                guard let newPhotos = self.presenter?.imagesListService.photos else {return}
+                self.photos = newPhotos
                 cell.setIsLiked(isLiked: self.photos[indexPath.row].isLiked)
             case .failure(let error):
                 assertionFailure("No images \(error)")
