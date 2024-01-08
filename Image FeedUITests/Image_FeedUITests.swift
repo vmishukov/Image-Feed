@@ -8,11 +8,11 @@
 import XCTest
 
 final class Image_FeedUITests: XCTestCase {
-    private let email = ""
-    private let password = ""
+    private let email = "1vmishukov1@gmail.com"
+    private let password = "gentoT-3hedga-nowkaw"
     
-    private let fullNameLabel = ""
-    private let userNameLabel = ""
+    private let fullNameLabel = "Keatamine Vladislav"
+    private let userNameLabel = "@k3t4m1ne"
 
     
     var app: XCUIApplication!
@@ -21,6 +21,7 @@ final class Image_FeedUITests: XCTestCase {
         try super.setUpWithError()
         
         app = XCUIApplication()
+        app.launchArguments = ["testMode"]
         app.launch()
         
         // это специальная настройка для тестов: если один тест не прошёл,
@@ -45,7 +46,7 @@ final class Image_FeedUITests: XCTestCase {
         XCTAssertTrue(webView.waitForExistence(timeout: 5))
         
         let loginTextField = webView.descendants(matching: .textField).element
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 10))
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         
         loginTextField.tap()
         loginTextField.typeText(email)

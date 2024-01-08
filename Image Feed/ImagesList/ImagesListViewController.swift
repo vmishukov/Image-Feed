@@ -92,10 +92,18 @@ extension ImagesListViewController {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let testMode = ProcessInfo.processInfo.arguments.contains("testMode")
+        
+        // MARK: - disable pagination for UI test (ImageFeedUIlikedTests)
+        if testMode {
+            print(imagesListService.photos.count)
+        } else {
             if indexPath.row + 1 == imagesListService.photos.count {
                 imagesListService.fetchPhotosNextPage()
             }
         }
+    }
+    
     func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
