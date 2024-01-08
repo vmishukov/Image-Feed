@@ -20,10 +20,20 @@ final class AlertPresenter: AlertPresenterProtocol {
             title: model.title,
             message: model.message,
             preferredStyle: .alert)
+        
         let action = UIAlertAction(title: model.buttonText, style: .default) { _ in
             model.completion()
         }
+        
+        let secondAction = UIAlertAction(title: model.secondButtonText, style: .default) { _ in
+            model.secondCompletion()
+        }
         alert.addAction(action)
+        
+        if model.secondButtonText != "" {
+            alert.addAction(secondAction)
+        }
+        
         delegate?.present(alert, animated: true, completion: nil)
     }
 }

@@ -9,22 +9,38 @@ final class SingleImageViewController : UIViewController {
     }
     @IBAction private func didTapShareButton() {
         let share = UIActivityViewController(
-            activityItems: [image],
+            activityItems: [imageView.image as Any],
             applicationActivities: nil
         )
         present(share, animated: true, completion: nil)
     }
+    // MARK: - Private Properties
+    private var alertPresener: AlertPresenterProtocol?
     // MARK: - Public Properties
-    var image: UIImage! {
-         didSet {
-             guard isViewLoaded else { return } // 1
-             imageView.image = image // 2
-             rescaleAndCenterImageInScrollView(image: image)
-         }
-     }
+
+    var fullImageURL: URL! {
+        didSet {
+            guard isViewLoaded else { return }
+            receiveImage()
+        }
+    }
     
-  
-  
+    func receiveImage() {
+        UIBlockingProgressHUD.show()
+        imageView.kf.setImage(with: fullImageURL) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                //self.showError()
+                print("")
+            }
+        }
+    }
+    
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
@@ -46,13 +62,33 @@ final class SingleImageViewController : UIViewController {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        imageView.image = image
-        rescaleAndCenterImageInScrollView(image: image)
+        receiveImage()
+       
     }
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
+    }
+}
+
+//MARK: - NetfowkErroAlert
+extension SingleImageViewController {
+    private func showErrorAlert() {
+        let viewModel = AlertModel(
+            title: "Что-то пошло не так(",
+            message: "Перезапустить загрузку?",
+            buttonText: "Ок",
+            completion:  {[weak self] in
+                guard let self = self else { return }
+                self.receiveImage()
+            },
+            secondButtonText: "Нет",
+            secondCompletion: { [weak self] in
+                guard let self = self else { return }
+                self.dismiss(animated: true)
+            })
+        alertPresener?.show(model: viewModel)
     }
 }
