@@ -141,6 +141,7 @@
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9v-34-oZY">
                                 <rect key="frame" x="8" y="8" width="48" height="48"/>
+                                <accessibility key="accessibilityConfiguration" identifier="scroll_view_back"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="SMA-bi-ByW"/>
                                     <constraint firstAttribute="width" constant="48" id="VNc-h4-PUk"/>
@@ -192,7 +193,7 @@
         <!--Web View View Controller-->
         <scene sceneID="SKO-rq-Ur4">
             <objects>
-                <viewController id="UcO-Hz-ZgL" customClass="WebViewViewController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="UcO-Hz-ZgL" customClass="WebViewViewController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7ju-NY-Gqr">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -225,6 +226,9 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ajk-EM-p7D"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
                         <constraints>
                             <constraint firstItem="DdP-Oe-2GL" firstAttribute="top" secondItem="ajk-EM-p7D" secondAttribute="top" constant="8" id="2iy-gy-0KM"/>
                             <constraint firstItem="DdP-Oe-2GL" firstAttribute="leading" secondItem="ajk-EM-p7D" secondAttribute="leading" constant="8" id="GG9-bM-Y0w"/>
@@ -264,6 +268,10 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P72-r4-d4h">
                                 <rect key="frame" x="16" y="680" width="361" height="48"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <accessibility key="accessibilityConfiguration" identifier="Authenticate">
+                                    <accessibilityTraits key="traits" button="YES"/>
+                                    <bool key="isElement" value="YES"/>
+                                </accessibility>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="f9h-Sy-gex"/>
                                 </constraints>

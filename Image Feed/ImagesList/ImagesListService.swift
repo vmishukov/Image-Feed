@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ImagesListService {
+public final class ImagesListService {
     // MARK: - Private Properties
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
@@ -55,7 +55,7 @@ final class ImagesListService {
                 self.task = nil
             case .failure(let error):
                 self.task = nil
-                assertionFailure("No images \(error)")
+               // assertionFailure("No images \(error)")
             }
         }
         self.task = task

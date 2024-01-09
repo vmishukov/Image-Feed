@@ -1,7 +1,19 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfileViewPresenterProtocol { get set }
+
+    func updateAvatar()
+    func showLogOutAlert()
+}
+
+final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
+    
+    var presenter: ProfileViewPresenterProtocol = {
+        return ProfileViewPresenter()
+    }()
+    
     
     @objc private func didTapButton(_ sender: UIButton) {
         showLogOutAlert()
@@ -64,22 +76,18 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter.view = self
+        presenter.viewDidLoad()
+        
         setProfileConstraits()
         alertPresener = AlertPresenter(delegate: self)
         updateProfileDetails(profile: profileService.profile)
         view.backgroundColor = UIColor(hex: "#1A1B22")
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.DidChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            self.updateAvatar()
-        }
+       
         updateAvatar()
     }
     
-    private func updateAvatar() {
+    func updateAvatar() {
         guard
             let profileImageURL = ProfileImageService.shared.avatarURL,
             let url = URL(string: profileImageURL)
@@ -139,21 +147,19 @@ final class ProfileViewController: UIViewController {
 
 //MARK: - Logout alert
 extension ProfileViewController {
-    private func showLogOutAlert() {
+    func showLogOutAlert() {
         let viewModel = AlertModel(
             title: "Пока, пока!",
             message: "Уверены что хотите выйти?",
             buttonText: "Да",
             completion:  {[weak self] in
                 guard let self = self else { return }
-                Cookie.clean()
-                OAuth2TokenStorage.shared.deleteToken()
-                profileService.clean()
+                presenter.exit()
                 guard let window = UIApplication.shared.windows.first else {
                     fatalError("Invalid Configuration") }
                 window.rootViewController = SplashViewController()
             },
-            secondButtonText: "Нет", 
+            secondButtonText: "Нет",
             secondCompletion: {[weak self] in
                 guard let self = self else { return }
                 return

@@ -23,4 +23,12 @@ struct ProfileResult: Decodable {
         self.lastName = try container.decodeIfPresent(String.self, forKey: .lastName)
         self.bio = try container.decodeIfPresent(String.self, forKey: .bio)
     }
+    
+    init(userName: String, firstName: String, lastName: String, bio: String) {
+        self.userName = userName
+        self.firstName = firstName
+        self.lastName = lastName
+        self.bio = bio
+        
+    }
 }
