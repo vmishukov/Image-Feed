@@ -4,8 +4,6 @@ import Kingfisher
 
 public protocol ImagesListViewControllerProtocol: AnyObject {
     var presenter: ImagesListViewPresenterProtocol? { get set }
-    //func configCell(for cell: ImagesListCell, with indexPath: IndexPath)
-    //func imageListCellDidTapLike(_ cell: ImagesListCell)
     func updateTableViewAnimated()
     var photos: [Photo] {get set}
 }
@@ -45,8 +43,8 @@ final class ImagesListViewController: UIViewController,ImagesListViewControllerP
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
+        formatter.dateFormat = "dd MMMM yyyy"
+        formatter.locale = Locale(identifier: "ru_RU")
         return formatter
     }()
     
@@ -88,7 +86,7 @@ extension ImagesListViewController {
             let likeImage = isLiked ? UIImage(named: "like_button_off") : UIImage(named: "like_button_on")
             cell.likeButton.setImage(likeImage, for: .normal)
         }
-        //тест не проходит
+      
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

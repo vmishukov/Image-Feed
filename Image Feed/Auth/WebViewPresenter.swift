@@ -17,7 +17,7 @@ public protocol WebViewPresenterProtocol {
 final class WebViewPresenter: WebViewPresenterProtocol {
     
     weak var view: WebViewViewControllerProtocol?
-    let UnsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
+    let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
     var authHelper: AuthHelperProtocol
     
     
